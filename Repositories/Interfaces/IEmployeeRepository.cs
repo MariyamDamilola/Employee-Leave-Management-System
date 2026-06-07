@@ -11,7 +11,7 @@ public interface IEmployeeRepository
     
     Task<Employee> CreateEmployee(CreateEmployeeDTO createEmployeeDto);
     
-    Task<Employee> UpdateEmployee(int id, CreateEmployeeDTO createEmployeeDto);
+    Task<Employee> UpdateEmployee(int id, UpdateEmployeeDTO updateEmployeeDto);
     
     Task<bool> DeleteEmployee(int id);
 

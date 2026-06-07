@@ -20,5 +20,5 @@ public class LeaveRequest
 
 
     //Every request belongs to one employee
-    public Employee Employee { get; set; } = null!;
+    public Employee Employee { get; set; }
 }

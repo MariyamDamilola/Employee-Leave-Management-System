@@ -30,10 +30,6 @@ namespace EmployeeLeaveManagementSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CompanyBadgeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateJoined")
                         .HasColumnType("datetime2");
 

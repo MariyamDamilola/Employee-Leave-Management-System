@@ -14,18 +14,13 @@ public class ApplicationDbContext : DbContext
     public DbSet<Employee>Employees { get; set; }
     
     public DbSet<LeaveRequest>LeaveRequests { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<LeaveRequest>()
-            .HasOne(lr => lr.Employee)          // A LeaveRequest has One Employee
-            .WithMany(e => e.LeaveRequests)     // An Employee has Many LeaveRequests
-            .HasForeignKey(lr => lr.EmployeeId) // The Foreign Key is EmployeeId
-            .OnDelete(DeleteBehavior.Cascade);  // Deletes leave requests if employee is deleted
+            .HasOne(lr => lr.Employee) // A LeaveRequest has One Employee
+            .WithMany(e => e.LeaveRequests) // An Employee has Many LeaveRequests
+            .HasForeignKey(lr => lr.EmployeeId); // The Foreign Key is EmployeeId
     }
-    
-    
-    
-    
 }

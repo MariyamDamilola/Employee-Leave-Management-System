@@ -1,5 +1,6 @@
 ﻿using EmployeeLeaveManagementSystem.DTO;
 using EmployeeLeaveManagementSystem.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeLeaveManagementSystem.Controllers;
@@ -47,12 +48,13 @@ public class LeavesController : ControllerBase
 
 
     [HttpPut("UpdateEmployeeLeaveHistory/{employeeId}")]
-    public async Task<IActionResult> UpdateLeaveRequest(int leaveRequestId, CreateLeaveDTO createLeaveDto)
+    public async Task<IActionResult> UpdateLeaveRequest(int leaveRequestId, UpdateLeaveDTO updateLeaveDto)
     {
-        var updatedLeaveRequest = await _leaveRepository.UpdateLeaveRequest(leaveRequestId, createLeaveDto);
+        var updatedLeaveRequest = await _leaveRepository.UpdateLeaveRequest(leaveRequestId, updateLeaveDto);
         return Ok(updatedLeaveRequest);
     }
-
+    
+    
     [HttpDelete("DeleteLeaveRequest/{id}")]
     public async Task<IActionResult> DeleteLeaveRequest(int id)
     {
@@ -65,6 +67,13 @@ public class LeavesController : ControllerBase
     {
         var rejectedRequest = await _leaveRepository.RejectLeaveRequest(id);
         return Ok(rejectedRequest);
+    }
+    
+    [HttpPut("AcceptLeaveRequest/{id}")]
+    public async Task<IActionResult> AcceptLeaveRequest(int id)
+    {
+        var acceptedRequest = await _leaveRepository.AcceptLeaveRequest(id);
+        return Ok(acceptedRequest);
     }
 
     [HttpGet("FilterByStatus")]
@@ -87,15 +96,5 @@ public class LeavesController : ControllerBase
         var stats = await _leaveRepository.GetLeaveStatisticsByDepartment();
         return Ok(stats);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 
 }

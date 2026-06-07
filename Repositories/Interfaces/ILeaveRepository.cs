@@ -14,9 +14,11 @@ public interface ILeaveRepository
     
     Task<LeaveRequest> SubmitLeaveRequest(CreateLeaveDTO createLeaveDto);
     
-    Task<LeaveRequest> UpdateLeaveRequest(int leaveRequestId, CreateLeaveDTO createLeaveDto);
+    Task<LeaveRequest> UpdateLeaveRequest(int leaveRequestId, UpdateLeaveDTO updateLeaveDto);
     
     Task<bool> DeleteLeaveRequest(int leaveRequestId);
+
+    Task<LeaveRequest> AcceptLeaveRequest(int leaveRequestId);
 
     Task<LeaveRequest> RejectLeaveRequest(int leaveRequestId);
 

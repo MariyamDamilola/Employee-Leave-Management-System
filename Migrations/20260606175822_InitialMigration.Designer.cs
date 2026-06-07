@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeLeaveManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260604093153_InitialMigration")]
+    [Migration("20260606175822_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -32,10 +32,6 @@ namespace EmployeeLeaveManagementSystem.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CompanyBadgeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateJoined")
                         .HasColumnType("datetime2");

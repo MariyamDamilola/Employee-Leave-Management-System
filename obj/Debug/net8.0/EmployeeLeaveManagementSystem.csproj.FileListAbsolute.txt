@@ -142,3 +142,4 @@ C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\r
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.pdb
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.genruntimeconfig.cache
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\ref\EmployeeLeaveManagementSystem.dll
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.sourcelink.json

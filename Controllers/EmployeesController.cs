@@ -37,9 +37,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPut("UpdateEmployee/{id}")]
-    public async Task<IActionResult> UpdateEmployee(int id, CreateEmployeeDTO createEmployeeDto)
+    public async Task<IActionResult> UpdateEmployee(int id, UpdateEmployeeDTO updateEmployeeDto)
     {
-        var UpdatedEmployee = await _employeeRepository.UpdateEmployee(id, createEmployeeDto);
+        var UpdatedEmployee = await _employeeRepository.UpdateEmployee(id, updateEmployeeDto);
         return Ok(UpdatedEmployee);
     }
 

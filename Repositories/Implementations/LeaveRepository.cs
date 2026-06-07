@@ -90,7 +90,7 @@ public class LeaveRepository : ILeaveRepository
     }
     
 
-    public async Task<LeaveRequest> UpdateLeaveRequest(int leaveRequestId, CreateLeaveDTO createLeaveDto)
+    public async Task<LeaveRequest> UpdateLeaveRequest(int leaveRequestId, UpdateLeaveDTO updateLeaveDto)
     {
         var existingRequest = await _dbContext.LeaveRequests.FirstOrDefaultAsync(x => x.Id == leaveRequestId);
         if (existingRequest == null)
@@ -98,15 +98,15 @@ public class LeaveRepository : ILeaveRepository
             throw new Exception($"Leave request with id {leaveRequestId} does not exist.");
         }
         
-        if (createLeaveDto.StartDate > createLeaveDto.EndDate)
+        if (updateLeaveDto.StartDate > updateLeaveDto.EndDate)
         {
             throw new Exception($"Start date must be before end date.");
         }
         
         var hasOverlap = await _dbContext.LeaveRequests
-            .AnyAsync(lr => lr.EmployeeId == createLeaveDto.EmployeeId && lr.Status != "Rejected" &&
-                            createLeaveDto.StartDate <= lr.EndDate &&
-                            createLeaveDto.EndDate >= lr.StartDate
+            .AnyAsync(lr => lr.EmployeeId == updateLeaveDto.EmployeeId && lr.Status != "Rejected" &&
+                            updateLeaveDto.StartDate <= lr.EndDate &&
+                            updateLeaveDto.EndDate >= lr.StartDate
             );
 
         if (hasOverlap)
@@ -114,10 +114,10 @@ public class LeaveRepository : ILeaveRepository
             throw new Exception("Cannot update request: The new date overlap with another existing leave request.");
         }
 
-        existingRequest.LeaveType = createLeaveDto.LeaveType;
-        existingRequest.StartDate = createLeaveDto.StartDate;
-        existingRequest.EndDate = createLeaveDto.EndDate;
-        existingRequest.Reason = createLeaveDto.Reason;
+        existingRequest.LeaveType = updateLeaveDto.LeaveType;
+        existingRequest.StartDate = updateLeaveDto.StartDate;
+        existingRequest.EndDate = updateLeaveDto.EndDate;
+        existingRequest.Reason = updateLeaveDto.Reason;
         
         await _dbContext.SaveChangesAsync();
 
@@ -135,7 +135,7 @@ public class LeaveRepository : ILeaveRepository
 
         if (leaveRequest.Status != "Pending")
         {
-            throw new Exception($"Cnnot delete this leave request because it has already been {leaveRequest.Status}");
+            throw new Exception($"Cannot delete this leave request because it has already been {leaveRequest.Status}");
 
         }
 
@@ -164,6 +164,26 @@ public class LeaveRepository : ILeaveRepository
         return leaveRequest;
     }
     
+    //Accept leave request
+    public async Task<LeaveRequest> AcceptLeaveRequest(int leaveRequestId)
+    {
+        var leaveRequest = await _dbContext.LeaveRequests.FindAsync(leaveRequestId);
+        if (leaveRequest == null)
+        {
+            throw new Exception($"Leave request with ID {leaveRequestId} does not exist.");
+        }
+
+        if (leaveRequest.Status != "Pending")
+        {
+            throw new Exception(
+                $"Cannot accept request. This leave request is already marked as {leaveRequest.Status}.");
+        }
+
+        leaveRequest.Status = "Approved";
+        await _dbContext.SaveChangesAsync();
+        return leaveRequest;
+    }
+
     public async Task<IEnumerable<LeaveRequest>> FilterLeaveRequestsByStatus(string status)
     {
         return await _dbContext.LeaveRequests

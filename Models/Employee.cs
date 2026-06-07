@@ -10,8 +10,6 @@ public class Employee
     
     public string Department { get; set; }
     
-    public string CompanyBadgeId { get; set; }
-    
     public DateTime DateJoined { get; set; }
 
     
