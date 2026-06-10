@@ -31,6 +31,29 @@ public class LeavesController : ControllerBase
     }
     
     
+    [HttpPost("SubmitLeaveRequest")]
+    public async Task<IActionResult> SubmitLeaveRequest(SubmitLeaveRequestDto submitLeaveRequestDto)
+    {
+        var submitLeaveRequest = await _leaveRepository.SubmitLeaveRequest(submitLeaveRequestDto);
+        return Ok(submitLeaveRequest);
+    }
+
+    
+    [HttpPut("UpdateEmployeeLeaveHistory/{Id}")]
+    public async Task<IActionResult> UpdateLeaveRequest(int id, SubmitLeaveRequestDto submitLeaveRequestDto)
+    {
+        var updatedLeaveRequest = await _leaveRepository.UpdateLeaveRequest(id, submitLeaveRequestDto);
+        return Ok(updatedLeaveRequest);
+    }
+    
+    [HttpDelete("DeleteLeaveRequest/{id}")]
+        public async Task<IActionResult> DeleteLeaveRequest(int id)
+        {
+            var deletedLeaveRequest = await _leaveRepository.DeleteLeaveRequest(id);
+            return Ok(deletedLeaveRequest);
+        }
+    
+    
     [HttpGet("GetEmployeeLeaveHistory/{employeeId}")]
     public async Task<IActionResult> GetEmployeeLeaveHistory(int employeeId)
     {
@@ -38,48 +61,27 @@ public class LeavesController : ControllerBase
         return Ok(leaveRequestHistory);
     }
     
-
-    [HttpPost("SubmitLeaveRequest")]
-    public async Task<IActionResult> SubmitLeaveRequest(CreateLeaveDTO createLeaveDto)
-    {
-        var submitLeaveRequest = await _leaveRepository.SubmitLeaveRequest(createLeaveDto);
-        return Ok(submitLeaveRequest);
-    }
-
-
-    [HttpPut("UpdateEmployeeLeaveHistory/{employeeId}")]
-    public async Task<IActionResult> UpdateLeaveRequest(int leaveRequestId, UpdateLeaveDTO updateLeaveDto)
-    {
-        var updatedLeaveRequest = await _leaveRepository.UpdateLeaveRequest(leaveRequestId, updateLeaveDto);
-        return Ok(updatedLeaveRequest);
-    }
     
-    
-    [HttpDelete("DeleteLeaveRequest/{id}")]
-    public async Task<IActionResult> DeleteLeaveRequest(int id)
+    [HttpPut("ApproveLeaveRequest/{id}")]
+    public async Task<IActionResult> ApproveLeaveRequest(int id, LeaveActionRequestDto leaveActionRequestDto)
     {
-        var deletedLeaveRequest = await _leaveRepository.DeleteLeaveRequest(id);
-        return Ok(deletedLeaveRequest);
-    }
-
-    [HttpPut("RejectLeaveRequest/{id}")]
-    public async Task<IActionResult> RejectLeaveRequest(int id)
-    {
-        var rejectedRequest = await _leaveRepository.RejectLeaveRequest(id);
-        return Ok(rejectedRequest);
-    }
-    
-    [HttpPut("AcceptLeaveRequest/{id}")]
-    public async Task<IActionResult> AcceptLeaveRequest(int id)
-    {
-        var acceptedRequest = await _leaveRepository.AcceptLeaveRequest(id);
+        var acceptedRequest = await _leaveRepository.ApproveLeaveRequest(id, leaveActionRequestDto);
         return Ok(acceptedRequest);
     }
-
-    [HttpGet("FilterByStatus")]
-    public async Task<IActionResult> FilterLeaveRequestsByStatus(string status)
+    
+    
+    [HttpPut("RejectLeaveRequest/{id}")]
+    public async Task<IActionResult> RejectLeaveRequest(int id, LeaveActionRequestDto leaveActionRequestDto)
     {
-        var requests = await _leaveRepository.FilterLeaveRequestsByStatus(status);
+        var rejectedRequest = await _leaveRepository.RejectLeaveRequest(id, leaveActionRequestDto);
+        return Ok(rejectedRequest);
+    }
+
+    
+    [HttpGet("GetByStatus")]
+    public async Task<IActionResult> GetLeaveRequestsByStatus(string status)
+    {
+        var requests = await _leaveRepository.GetLeaveRequestsByStatus(status);
         return Ok(requests);
     }
 

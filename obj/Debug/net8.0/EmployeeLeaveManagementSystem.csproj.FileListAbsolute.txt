@@ -143,3 +143,6 @@ C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\E
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.genruntimeconfig.cache
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\ref\EmployeeLeaveManagementSystem.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.sourcelink.json
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\FluentValidation.dll
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll

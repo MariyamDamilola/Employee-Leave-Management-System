@@ -19,7 +19,11 @@ public class EmployeeRepository : IEmployeeRepository
     
     public async Task<IEnumerable<Employee>> GetAllEmployees()
     {
-        var employees = await _dbContext.Employees.ToListAsync();
+        var employees = await _dbContext.Employees.Include(e=>e.LeaveRequests).ToListAsync();
+        if (employees.Count == 0)
+        {
+            throw new Exception("Employee not found");
+        }
         return employees;
     }
 
@@ -34,12 +38,12 @@ public class EmployeeRepository : IEmployeeRepository
         return employee;
     }
 
-    public async Task<Employee> CreateEmployee(CreateEmployeeDTO createEmployeeDto)
+    public async Task<Employee> CreateEmployee(CreateEmployeeRequestDto createEmployeeRequestDto)
     {
-        var employeeExist = await _dbContext.Employees.AnyAsync(x=> x.Email == createEmployeeDto.Email);
+        var employeeExist = await _dbContext.Employees.AnyAsync(x=> x.Email == createEmployeeRequestDto.Email);
         if (employeeExist)
         {
-            throw new Exception($"Employee with email {createEmployeeDto.Email} already exists");
+            throw new Exception($"Employee with email {createEmployeeRequestDto.Email} already exists");
         }
         
         
@@ -47,10 +51,10 @@ public class EmployeeRepository : IEmployeeRepository
         //Turn the input DTO into a valid Database Entity
         var newEmployee = new Employee
         {
-            FullName = createEmployeeDto.FullName,
-            Email = createEmployeeDto.Email,
-            Department = createEmployeeDto.Department,
-            DateJoined = createEmployeeDto.DateJoined,
+            FullName = createEmployeeRequestDto.FullName,
+            Email = createEmployeeRequestDto.Email,
+            Department = createEmployeeRequestDto.Department,
+            DateJoined = DateTime.UtcNow
         };
         
         _dbContext.Employees.Add(newEmployee);
@@ -59,7 +63,7 @@ public class EmployeeRepository : IEmployeeRepository
     }
     
 
-    public async Task<Employee> UpdateEmployee(int id, UpdateEmployeeDTO updateEmployeeDto)
+    public async Task<Employee> UpdateEmployee(int id, UpdateEmployeeRequestDto updateEmployeeRequestDto)
     {
         var existingEmployee = await _dbContext.Employees.FirstOrDefaultAsync(x=> x.Id == id);
         if (existingEmployee == null)
@@ -67,18 +71,18 @@ public class EmployeeRepository : IEmployeeRepository
             throw new Exception($"Employee with id {id} not found");
         }
 
-        if (existingEmployee.Email != updateEmployeeDto.Email)
+        if (existingEmployee.Email != updateEmployeeRequestDto.Email)
         {
-            var emailExists = await _dbContext.Employees.AnyAsync(x=> x.Email == updateEmployeeDto.Email);
+            var emailExists = await _dbContext.Employees.AnyAsync(x=> x.Email == updateEmployeeRequestDto.Email);
             if (emailExists)
             {
-                throw new Exception($"Employee with email {updateEmployeeDto.Email} already exists");
+                throw new Exception($"Employee with email {updateEmployeeRequestDto.Email} already exists");
             }
         }
         
-        existingEmployee.FullName = updateEmployeeDto.FullName;
-        existingEmployee.Email = updateEmployeeDto.Email;
-        existingEmployee.Department = updateEmployeeDto.Department;
+        existingEmployee.FullName = updateEmployeeRequestDto.FullName;
+        existingEmployee.Email = updateEmployeeRequestDto.Email;
+        existingEmployee.Department = updateEmployeeRequestDto.Department;
         
         await _dbContext.SaveChangesAsync();
         return existingEmployee;
@@ -90,7 +94,7 @@ public class EmployeeRepository : IEmployeeRepository
 
         if (employee == null)
         {
-            return false;
+            throw new Exception("Employee not found");
         }
         _dbContext.Employees.Remove(employee);
         await _dbContext.SaveChangesAsync();

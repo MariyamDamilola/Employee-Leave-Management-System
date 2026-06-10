@@ -1,8 +1,8 @@
 ﻿namespace EmployeeLeaveManagementSystem.DTO;
 
-public class UpdateLeaveDTO
+public class SubmitLeaveRequestDto
 {
-    public int  EmployeeId { get; set; }
+    public int EmployeeId { get; set; }
     
     public string LeaveType { get; set; }
     

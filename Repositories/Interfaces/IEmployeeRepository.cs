@@ -7,11 +7,11 @@ public interface IEmployeeRepository
 {
     Task<IEnumerable<Employee>> GetAllEmployees();
     
-    Task<Employee> GetEmployeeById(int id);
+    Task<Employee?> GetEmployeeById(int id);
     
-    Task<Employee> CreateEmployee(CreateEmployeeDTO createEmployeeDto);
+    Task<Employee> CreateEmployee(CreateEmployeeRequestDto createEmployeeRequestDto);
     
-    Task<Employee> UpdateEmployee(int id, UpdateEmployeeDTO updateEmployeeDto);
+    Task<Employee> UpdateEmployee(int id, UpdateEmployeeRequestDto updateEmployeeRequestDto );
     
     Task<bool> DeleteEmployee(int id);
 

@@ -9,23 +9,30 @@ public interface ILeaveRepository
     
     Task<LeaveRequest> GetleaveRequestsbyId(int leaveRequestId);
     
-    Task<IEnumerable<LeaveRequest>> GetEmployeeLeaveHistory(int employeeId);
-
+    Task<LeaveRequest> SubmitLeaveRequest(SubmitLeaveRequestDto submitLeaveRequestDto);
     
-    Task<LeaveRequest> SubmitLeaveRequest(CreateLeaveDTO createLeaveDto);
-    
-    Task<LeaveRequest> UpdateLeaveRequest(int leaveRequestId, UpdateLeaveDTO updateLeaveDto);
+    Task<LeaveRequest> UpdateLeaveRequest(int leaveRequestId, SubmitLeaveRequestDto submitLeaveRequestDto);
     
     Task<bool> DeleteLeaveRequest(int leaveRequestId);
+    
+    Task<IEnumerable<LeaveRequest>> GetEmployeeLeaveHistory(int employeeId);
+    
+    Task<LeaveRequest> ApproveLeaveRequest(int leaveRequestId, LeaveActionRequestDto  leaveActionRequestDto);
+    
+    Task<LeaveRequest> RejectLeaveRequest(int leaveRequestId, LeaveActionRequestDto leaveActionRequestDto);
 
-    Task<LeaveRequest> AcceptLeaveRequest(int leaveRequestId);
-
-    Task<LeaveRequest> RejectLeaveRequest(int leaveRequestId);
-
-    Task<IEnumerable<LeaveRequest>> FilterLeaveRequestsByStatus(string status);
-
+    Task<IEnumerable<LeaveRequest>> GetLeaveRequestsByStatus(string status);
+    
     Task<IEnumerable<Employee>> GetEmployeesCurrentlyOnLeave();
-
+    
     Task<Dictionary<string, int>> GetLeaveStatisticsByDepartment();
+
+
+
+    
+
+   
+
+
 
 }

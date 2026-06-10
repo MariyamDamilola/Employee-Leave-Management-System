@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeLeaveManagementSystem.Controllers;
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class EmployeesController : ControllerBase
 {
     private readonly IEmployeeRepository _employeeRepository;
@@ -30,16 +30,16 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPost("CreateEmployee")]
-    public async Task<IActionResult> CreateEmployee(CreateEmployeeDTO createEmployeeDto)
+    public async Task<IActionResult> CreateEmployee(CreateEmployeeRequestDto createEmployeeRequestDto)
     {
-        var createdEmployee = await _employeeRepository.CreateEmployee(createEmployeeDto);
+        var createdEmployee = await _employeeRepository.CreateEmployee(createEmployeeRequestDto);
         return Ok(createdEmployee);
     }
 
     [HttpPut("UpdateEmployee/{id}")]
-    public async Task<IActionResult> UpdateEmployee(int id, UpdateEmployeeDTO updateEmployeeDto)
+    public async Task<IActionResult> UpdateEmployee(int id, UpdateEmployeeRequestDto updateEmployeeRequestDto)
     {
-        var UpdatedEmployee = await _employeeRepository.UpdateEmployee(id, updateEmployeeDto);
+        var UpdatedEmployee = await _employeeRepository.UpdateEmployee(id, updateEmployeeRequestDto);
         return Ok(UpdatedEmployee);
     }
 

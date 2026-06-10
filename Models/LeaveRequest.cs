@@ -21,4 +21,7 @@ public class LeaveRequest
 
     //Every request belongs to one employee
     public Employee Employee { get; set; }
+
+    public ICollection<LeaveApproval> Approvals { get; set; }
+        = new List<LeaveApproval>();
 }
