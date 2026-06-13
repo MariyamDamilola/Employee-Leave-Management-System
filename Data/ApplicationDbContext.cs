@@ -29,14 +29,12 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<LeaveApproval>()
             .HasOne(la => la.LeaveRequest)
             .WithMany(lr => lr.Approvals)
-            .HasForeignKey(la => la.LeaveRequestId)
-            .OnDelete(DeleteBehavior.Cascade);
-
+            .HasForeignKey(la => la.LeaveRequestId);
+        
         modelBuilder.Entity<LeaveApproval>()
             .HasOne(la => la.Approver)
             .WithMany()
-            .HasForeignKey(la => la.ApproverId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(la => la.ApproverId);
 
     }
 }

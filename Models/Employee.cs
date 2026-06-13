@@ -1,4 +1,6 @@
-﻿namespace EmployeeLeaveManagementSystem.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace EmployeeLeaveManagementSystem.Models;
 
 public class Employee
 {
@@ -14,6 +16,7 @@ public class Employee
 
     
     //One employee can have many requests
+    [JsonIgnore]
     public ICollection<LeaveRequest> LeaveRequests { get; set; } = new List<LeaveRequest>();
 
 

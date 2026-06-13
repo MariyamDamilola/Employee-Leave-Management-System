@@ -15,7 +15,7 @@ public class LeavesController : ControllerBase
         _leaveRepository = leaveRepository;
     }
 
-    [HttpGet("GetAllLeaveRequests")]
+    [HttpGet]
     public async Task<IActionResult> GetAllLeaveRequests()
     {
         var leaves = await _leaveRepository.GetAllleaveRequests();
@@ -23,7 +23,7 @@ public class LeavesController : ControllerBase
     }
     
 
-    [HttpGet("GetLeavesRequestById/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetLeaveRequestById(int id)
     {
         var leaveRequests = await _leaveRepository.GetleaveRequestsbyId(id);
@@ -31,7 +31,7 @@ public class LeavesController : ControllerBase
     }
     
     
-    [HttpPost("SubmitLeaveRequest")]
+    [HttpPost]
     public async Task<IActionResult> SubmitLeaveRequest(SubmitLeaveRequestDto submitLeaveRequestDto)
     {
         var submitLeaveRequest = await _leaveRepository.SubmitLeaveRequest(submitLeaveRequestDto);
@@ -39,14 +39,14 @@ public class LeavesController : ControllerBase
     }
 
     
-    [HttpPut("UpdateEmployeeLeaveHistory/{Id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateLeaveRequest(int id, SubmitLeaveRequestDto submitLeaveRequestDto)
     {
         var updatedLeaveRequest = await _leaveRepository.UpdateLeaveRequest(id, submitLeaveRequestDto);
         return Ok(updatedLeaveRequest);
     }
     
-    [HttpDelete("DeleteLeaveRequest/{id}")]
+    [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLeaveRequest(int id)
         {
             var deletedLeaveRequest = await _leaveRepository.DeleteLeaveRequest(id);
@@ -54,7 +54,7 @@ public class LeavesController : ControllerBase
         }
     
     
-    [HttpGet("GetEmployeeLeaveHistory/{employeeId}")]
+    [HttpGet("{id}/leaves")]
     public async Task<IActionResult> GetEmployeeLeaveHistory(int employeeId)
     {
         var leaveRequestHistory = await _leaveRepository.GetEmployeeLeaveHistory(employeeId);
@@ -62,7 +62,7 @@ public class LeavesController : ControllerBase
     }
     
     
-    [HttpPut("ApproveLeaveRequest/{id}")]
+    [HttpPut("approve/{id}")]
     public async Task<IActionResult> ApproveLeaveRequest(int id, LeaveActionRequestDto leaveActionRequestDto)
     {
         var acceptedRequest = await _leaveRepository.ApproveLeaveRequest(id, leaveActionRequestDto);
@@ -70,7 +70,7 @@ public class LeavesController : ControllerBase
     }
     
     
-    [HttpPut("RejectLeaveRequest/{id}")]
+    [HttpPut("reject/{id}")]
     public async Task<IActionResult> RejectLeaveRequest(int id, LeaveActionRequestDto leaveActionRequestDto)
     {
         var rejectedRequest = await _leaveRepository.RejectLeaveRequest(id, leaveActionRequestDto);
@@ -78,21 +78,21 @@ public class LeavesController : ControllerBase
     }
 
     
-    [HttpGet("GetByStatus")]
+    [HttpGet("status/{status}")]
     public async Task<IActionResult> GetLeaveRequestsByStatus(string status)
     {
         var requests = await _leaveRepository.GetLeaveRequestsByStatus(status);
         return Ok(requests);
     }
 
-    [HttpGet("CurrentlyOnLeave")]
+    [HttpGet("on-Leave")]
     public async Task<IActionResult> GetEmployeesCurrentlyOnLeave()
     {
         var employees = await _leaveRepository.GetEmployeesCurrentlyOnLeave();
         return Ok(employees);
     }
 
-    [HttpGet("StatisticsByDepartment")]
+    [HttpGet("statistics")]
     public async Task<IActionResult> GetLeaveStatisticsByDepartment()
     {
         var stats = await _leaveRepository.GetLeaveStatisticsByDepartment();

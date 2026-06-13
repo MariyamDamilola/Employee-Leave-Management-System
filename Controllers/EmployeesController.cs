@@ -14,7 +14,7 @@ public class EmployeesController : ControllerBase
         _employeeRepository = employeeRepository;
     }
 
-    [HttpGet("GetAllEmployees")]
+    [HttpGet]
     
     public async Task<IActionResult> GetAllEmployee()
     {
@@ -22,28 +22,28 @@ public class EmployeesController : ControllerBase
         return Ok(employees);
     }
 
-    [HttpGet("GetEmployeeById/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetEmployeeById(int id)
     {
         var employee = await _employeeRepository.GetEmployeeById(id);
         return Ok(employee);
     }
 
-    [HttpPost("CreateEmployee")]
+    [HttpPost]
     public async Task<IActionResult> CreateEmployee(CreateEmployeeRequestDto createEmployeeRequestDto)
     {
         var createdEmployee = await _employeeRepository.CreateEmployee(createEmployeeRequestDto);
         return Ok(createdEmployee);
     }
 
-    [HttpPut("UpdateEmployee/{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateEmployee(int id, UpdateEmployeeRequestDto updateEmployeeRequestDto)
     {
         var UpdatedEmployee = await _employeeRepository.UpdateEmployee(id, updateEmployeeRequestDto);
         return Ok(UpdatedEmployee);
     }
 
-    [HttpDelete("DeleteEmployee/{id}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteEmployee(int id)
     {
         var isDeleted = await _employeeRepository.DeleteEmployee(id);

@@ -11,14 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEmployeeRequestValidation>();
     
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>(); 
 
@@ -34,8 +33,13 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.ReferenceHandler =
             System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        
+        options.JsonSerializerOptions.PropertyNamingPolicy = 
+            System.Text.Json.JsonNamingPolicy.CamelCase;
     });
 
+builder.Services.AddCors(o => o.AddPolicy("Dev",
+    p => p.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod()));
 
 
 var app = builder.Build();
@@ -48,7 +52,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("Dev");
+
+
 app.UseHttpsRedirection();
+
 
 app.UseAuthorization();
 
