@@ -26,7 +26,7 @@ builder.Services.AddScoped<ILeaveRepository, LeaveRepository>();
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlDatabaseConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("SqlDatabaseConnection")));
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -41,6 +41,12 @@ builder.Services.AddControllers()
 builder.Services.AddCors(o => o.AddPolicy("Dev",
     p => p.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod()));
 
+var port = Environment.GetEnvironmentVariable("PORT");
+
+if (!string.IsNullOrWhiteSpace(port))
+{
+    builder.WebHost.UseUrls($"http://*:{port}");
+}
 
 var app = builder.Build();
 
@@ -57,9 +63,14 @@ app.UseCors("Dev");
 
 app.UseHttpsRedirection();
 
-
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();

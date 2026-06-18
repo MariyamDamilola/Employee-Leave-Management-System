@@ -27,7 +27,7 @@ public class EmployeeRepository : IEmployeeRepository
         return employees;
     }
 
-    public async Task<Employee> GetEmployeeById(int id)
+    public async Task<Employee?> GetEmployeeById(int id)
     {
         var employee = await _dbContext.Employees.FirstOrDefaultAsync(x=> x.Id == id);
         if (employee == null)

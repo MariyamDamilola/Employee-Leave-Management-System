@@ -8,6 +8,9 @@ C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\E
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\EmployeeLeaveManagementSystem.pdb
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\FluentValidation.dll
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Humanizer.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
@@ -39,6 +42,8 @@ C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\M
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Npgsql.dll
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -128,6 +133,7 @@ C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\E
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.csproj.CoreCompileInputs.cache
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.sourcelink.json
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\staticwebassets\msbuild.EmployeeLeaveManagementSystem.Microsoft.AspNetCore.StaticWebAssets.props
@@ -142,7 +148,3 @@ C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\r
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.pdb
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.genruntimeconfig.cache
 C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\ref\EmployeeLeaveManagementSystem.dll
-C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\obj\Debug\net8.0\EmployeeLeaveManagementSystem.sourcelink.json
-C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\FluentValidation.dll
-C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
-C:\Users\ANYTHING\RiderProjects\EmployeeLeaveManagementSystem\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
