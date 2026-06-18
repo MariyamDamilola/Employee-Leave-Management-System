@@ -2,6 +2,7 @@
 using EmployeeLeaveManagementSystem.DTO;
 using EmployeeLeaveManagementSystem.Models;
 using EmployeeLeaveManagementSystem.Repositories.Interfaces;
+using EmployeeLeaveManagementSystem.Exceptions; // 🚀 ADDED THIS IMPORT
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeLeaveManagementSystem.Repositories.Implementations;
@@ -14,7 +15,6 @@ public class LeaveRepository : ILeaveRepository
     {
         _dbContext = dbContext;
     }
-    
     
     public async Task<IEnumerable<LeaveRequest>> GetAllleaveRequests()
     {
@@ -33,26 +33,24 @@ public class LeaveRepository : ILeaveRepository
             .FirstOrDefaultAsync(x=> x.Id == leaveRequestId);
         if (leaveRequest == null)
         {
-            throw new Exception($"Leave request with id {leaveRequestId} not found.");
+            throw new AppException($"Leave request with id {leaveRequestId} not found.");
         }
 
         return leaveRequest;
     }
 
-  
     public async Task<LeaveRequest> SubmitLeaveRequest(SubmitLeaveRequestDto submitLeaveRequestDto)
     {
-        //Employee must exist before leave request can be submitted
+        
         var employeeExists = await _dbContext.Employees.AnyAsync(x=>x.Id == submitLeaveRequestDto.EmployeeId);
         if (!employeeExists)
         {
-            throw new Exception($"Employee with id {submitLeaveRequestDto.EmployeeId} does not exist.");
+            throw new AppException($"Employee with id {submitLeaveRequestDto.EmployeeId} does not exist.");
         }
 
-        // start day cannot be later than end date
         if (submitLeaveRequestDto.StartDate > submitLeaveRequestDto.EndDate)
         {
-            throw new Exception($"Start date cannot be after end date.");
+            throw new AppException($"Start date cannot be after end date.");
         }
         
         var hasOverlap = await _dbContext.LeaveRequests
@@ -63,7 +61,7 @@ public class LeaveRepository : ILeaveRepository
                             );
         if (hasOverlap)
         {
-            throw new Exception("Cannot submit request: The selected dates overlap with an existing leave request. ");
+            throw new AppException("Cannot submit request: The selected dates overlap with an existing leave request.");
         }
 
         var newLeaveRequest = new LeaveRequest
@@ -83,25 +81,23 @@ public class LeaveRepository : ILeaveRepository
 
         return newLeaveRequest;
     }
-    
 
     public async Task<LeaveRequest> UpdateLeaveRequest(int id, SubmitLeaveRequestDto submitLeaveRequestDto)
     {
         var existingRequest = await _dbContext.LeaveRequests.FirstOrDefaultAsync(x => x.Id == id);
         if (existingRequest == null)
         {
-            throw new Exception($"Leave request with id {id} does not exist.");
+            throw new AppException($"Leave request with id {id} does not exist.");
         }
 
         if (existingRequest.Status != "Pending")
         {
-            throw new Exception("Only pending request can be updated");
+            throw new AppException("Only pending requests can be updated.");
         }
-        
 
         if (submitLeaveRequestDto.StartDate > submitLeaveRequestDto.EndDate)
         {
-            throw new Exception("Start date cannot be after end date.");
+            throw new AppException("Start date cannot be after end date.");
         }
         
         var hasOverlap = await _dbContext.LeaveRequests
@@ -114,7 +110,7 @@ public class LeaveRepository : ILeaveRepository
 
         if (hasOverlap)
         {
-            throw new Exception("Cannot update request: The new date overlap with another existing leave request.");
+            throw new AppException("Cannot update request: The new dates overlap with another existing leave request.");
         }
 
         existingRequest.LeaveType = submitLeaveRequestDto.LeaveType;
@@ -132,13 +128,12 @@ public class LeaveRepository : ILeaveRepository
 
         if (leaveRequest == null)
         {
-            throw new Exception("Leave request not found");
+            throw new AppException("Leave request not found.");
         }
 
         if (leaveRequest.Status != "Pending")
         {
-            throw new Exception($"Cannot delete this leave request because it has already been {leaveRequest.Status}");
-
+            throw new AppException($"Cannot delete this leave request because it has already been {leaveRequest.Status}.");
         }
 
         _dbContext.LeaveRequests.Remove(leaveRequest);
@@ -151,7 +146,7 @@ public class LeaveRepository : ILeaveRepository
         var employeeExists = await _dbContext.Employees.AnyAsync(x => x.Id == employeeId);
         if (!employeeExists)
         {
-            throw new Exception($"Employee with id {employeeId} does not exist.");
+            throw new AppException($"Employee with id {employeeId} does not exist.");
         }
 
         return await _dbContext.LeaveRequests
@@ -162,22 +157,21 @@ public class LeaveRepository : ILeaveRepository
     
     public async Task<LeaveRequest> ApproveLeaveRequest(int id, LeaveActionRequestDto leaveActionRequestDto)
     {
-        var leaveRequest =
-            await _dbContext.LeaveRequests.Include(lr => lr.Approvals)
+        var leaveRequest = await _dbContext.LeaveRequests.Include(lr => lr.Approvals)
                 .FirstOrDefaultAsync(x => x.Id == id);
         if (leaveRequest == null)
         {
-            throw new Exception($"Leave request not found.");
+            throw new AppException($"Leave request not found.");
         }
 
         if (leaveRequest.Status == "Approved" || leaveRequest.Status == "Rejected")
         {
-            throw new Exception($"Cannot action this request: It is already finalized as {leaveRequest.Status}");
+            throw new AppException($"Cannot action this request: It is already finalized as {leaveRequest.Status}");
         }
 
         if (leaveRequest.EmployeeId == leaveActionRequestDto.ApproverId)
         {
-            throw new Exception("You cannot approve your own leave request");
+            throw new AppException("You cannot approve your own leave request.");
         }
 
         var alreadyActed = leaveRequest.Approvals
@@ -185,7 +179,7 @@ public class LeaveRepository : ILeaveRepository
 
         if (alreadyActed)
         {
-            throw new Exception("Approver already acted on this request");
+            throw new AppException("Approver already acted on this request.");
         }
         
         leaveRequest.Approvals.Add(new LeaveApproval
@@ -193,7 +187,7 @@ public class LeaveRepository : ILeaveRepository
             LeaveRequestId =  id,
             ApproverId = leaveActionRequestDto.ApproverId,
             Action = "Approved",
-            Reason= leaveActionRequestDto.Reason,
+            Reason = leaveActionRequestDto.Reason,
             DateActed = DateTime.UtcNow
         });
         
@@ -212,8 +206,6 @@ public class LeaveRepository : ILeaveRepository
         return leaveRequest;
     }
 
-
-    //Reject a Leave Request
     public async Task<LeaveRequest> RejectLeaveRequest(int id, LeaveActionRequestDto leaveActionRequestDto)
     {
         var leave = await _dbContext.LeaveRequests
@@ -222,32 +214,29 @@ public class LeaveRepository : ILeaveRepository
 
         if (leave == null)
         {
-            throw new Exception("Leave request not found");
-            
+            throw new AppException("Leave request not found.");
         }
         
         if (leave.Status == "Approved" || leave.Status == "Rejected")
         {
-            throw new Exception($"Cannot action this request: It is already finalized as {leave.Status}");
+            throw new AppException($"Cannot action this request: It is already finalized as {leave.Status}");
         }
 
         if (leave.EmployeeId == leaveActionRequestDto.ApproverId)
         {
-            throw new Exception("You cannot reject your own leave request");
-
+            throw new AppException("You cannot reject your own leave request.");
         }
 
         var alreadyActed = leave.Approvals.Any(a => a.ApproverId == leaveActionRequestDto.ApproverId);
 
         if (alreadyActed)
         {
-            throw new Exception("You already acted on this request");
-            
+            throw new AppException("You already acted on this request.");
         }
 
         if (string.IsNullOrWhiteSpace(leaveActionRequestDto.Reason))
         {
-            throw new Exception("A rejection reason must be provided");
+            throw new AppException("A rejection reason must be provided.");
         }
 
         leave.Approvals.Add(new LeaveApproval
@@ -265,8 +254,6 @@ public class LeaveRepository : ILeaveRepository
         return leave;
     }
     
-   
-
     public async Task<IEnumerable<LeaveRequest>> GetLeaveRequestsByStatus(string status)
     {
         return await _dbContext.LeaveRequests
@@ -276,11 +263,9 @@ public class LeaveRepository : ILeaveRepository
             .ToListAsync();
     }
     
-
     public async Task<IEnumerable<Employee>> GetEmployeesCurrentlyOnLeave()
     {
         var today = DateTime.UtcNow.Date;
-
         
         return await _dbContext.LeaveRequests
             .Include(lr => lr.Employee)
@@ -296,7 +281,4 @@ public class LeaveRepository : ILeaveRepository
             .GroupBy(lr => lr.Employee.Department)
             .ToDictionaryAsync(group => group.Key ?? "Unknown", group => group.Count());
     }
-
-
-
 }
