@@ -18,14 +18,10 @@ public class LeaveRepository : ILeaveRepository
     
     public async Task<IEnumerable<LeaveRequest>> GetAllleaveRequests()
     {
-        var leaveRequests = await _dbContext.LeaveRequests
-            .AsNoTracking()
-            .Include(lr=> lr.Employee)
-            .OrderByDescending(lr=>lr.DateCreated).ToListAsync();
-        if (!leaveRequests.Any())
-        {
-           throw new Exception("No leave requests found.");
-        }
+       var leaveRequests = await _dbContext.LeaveRequests
+               .Include(l => l.Employee) 
+               .OrderByDescending(l => l.DateCreated)
+               .ToListAsync();
 
         return leaveRequests;
     }
